@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sann-opticals
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sann-opticals
+  template:
+    metadata:
+      labels:
+        app: sann-opticals
+    spec:
+      containers:
+      - name: sann-opticals
+        image: public.ecr.aws/o9r8h0v8/minikube-public-ecr-repo
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3005
+          name: http
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 3005
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          failureThreshold: 3
