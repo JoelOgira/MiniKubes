@@ -1,0 +1,36 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Elastic Container Registry Repository using Cloudformation
+
+#------------------------
+#   METADATA
+#------------------------
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+    - Label:
+        default: ECR Configuration
+      Parameters:
+      - RepoNameParameter
+
+#------------------------
+#   PARAMETERS
+#------------------------
+Parameters:
+  RepoNameParameter:
+    Description: Name for ecr repo
+    Type: String
+
+#------------------------
+#   RESOURCES
+#------------------------
+Resources:
+  MyPublicRepository:
+    Type: AWS::ECR::PublicRepository
+    Properties:
+      RepositoryName: !Sub ${RepoNameParameter}-repo
+      RepositoryCatalogData:
+        OperatingSystems:
+        - "Linux"
+        Architectures:
+        - "x86"
+        RepositoryDescription: "This is a public ECR repo for my images."
